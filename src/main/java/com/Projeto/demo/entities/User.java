@@ -3,12 +3,23 @@ package com.Projeto.demo.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 	//Serializable é para que os obejtos possam ser transformados em cadeia de bytes
-		// Para que os objetos trafegue na rede, gravado em arquivos.
+		// Para que os objetos trafeguem na rede/gravado em arquivos.	
+	
+@Entity //@Entity serve para indicar que a classe será mapeada oara uma tabela em banco de dados
+@Table(name = "tb_user") //@Table para trocar o nome User pois pode dar conflito
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id //Qual vai ser a minha chave primário no banco de dados, nesse caso o id será minha chave primária.
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	//Como id é uma chave numérica vai ser auto-incrementável no banco de dados.
 	private Long id;
 	private String name;
 	private String email;
