@@ -1,18 +1,21 @@
 package com.Projeto.demo.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 	//Serializable é para que os obejtos possam ser transformados em cadeia de bytes
 		// Para que os objetos trafeguem na rede/gravado em arquivos.	
 	
-@Entity //@Entity serve para indicar que a classe será mapeada oara uma tabela em banco de dados
+@Entity //@Entity serve para indicar que a classe será mapeada para uma tabela em banco de dados
 @Table(name = "tb_user") //@Table para trocar o nome User pois pode dar conflito
 public class User implements Serializable {
 	
@@ -25,6 +28,9 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	
+	@OneToMany(mappedBy = "client") //É para relacionarmos a classe Order e User no banco de dados (OneToMany- pq apenas uma classe Users para muitos pedidos) 
+	private List<Order> order = new ArrayList<>();
 	
 	public User () {
 		
@@ -57,6 +63,10 @@ public class User implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public List<Order> getOrder() {
+		return order;
 	}
 
 	public void setId(Long id) {
@@ -100,6 +110,5 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
 				+ "]";
-	}
-	
+	}	
 }

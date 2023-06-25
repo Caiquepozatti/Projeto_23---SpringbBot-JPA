@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.Projeto.demo.entities.User;
 import com.Projeto.demo.repositories.UserRepository;
 
-@Service //Para classificar como camada de serviço para utilizar o Autowired
+@Service //Para classificar como camada de serviço para utilizar o Autowired (component registration)
 public class UserService {
 	
 	@Autowired
