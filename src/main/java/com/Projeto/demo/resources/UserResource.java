@@ -14,7 +14,7 @@ import com.Projeto.demo.entities.User;
 @RequestMapping(value = "/users")
 public class UserResource {
 	
-	//GetMapping é para retornar a função public abaixo dele
+	//GetMapping é para retornar a função public abaixo dele na WEB
 	@GetMapping
 	//ResponseEntity é um tipo especifico do spring para retornar uma resposta de requisições web
 	public ResponseEntity<User> findAll(){
