@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.Projeto.demo.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,11 +28,15 @@ public class Order implements Serializable{
 	@Id //Qual vai ser a minha chave primário no banco de dados, nesse caso o id será minha chave primária.
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	//Como id é uma chave numérica vai ser auto-incrementável no banco de dados.
 	private Long id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T-HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	private OrderStatus orderStatus;
 	
+	//@JsonIgnore //Para ignorar o loopin entre classe "User" e "Order"  (List<Order> e User cliente). Pode colocar essa anotação em apenas uma classe
+		//JsonIgnore no "User" traz a lista de pedidos feito pelo usuário, e no "Order" traz os dados do cliente. JsonIgonre traz essa opção
+		//Mas só pq no "application.proprerties" é igual a true, se não ele nao puxa.
 	@ManyToOne //É para relacionarmos a classe Order e User no banco de dados (ManyToOne- pq existem muitas orders para um cliente) 
-	@JoinColumn(name = "client_id") //Para juntar "client_id" no banco de dados "Order"
+	@JoinColumn(name = "client_id") //Para criar uma coluna "client_id" no banco de dados "Order" relacionado ao "id" do banco de dados "USER"
 	private User client;
 	
 	public Order () {

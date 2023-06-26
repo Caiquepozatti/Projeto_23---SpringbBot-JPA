@@ -6,22 +6,22 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Projeto.demo.entities.User;
-import com.Projeto.demo.repositories.UserRepository;
+import com.Projeto.demo.entities.Order;
+import com.Projeto.demo.repositories.OrderRepository;
 
 @Service //Para classificar como camada de serviço para utilizar o Autowired (component registration)
-public class UserService {
+public class OrderService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private OrderRepository userRepository;
 	
-	public List<User> findAll(){
+	public List<Order> findAll(){
 		return userRepository.findAll();
 	}
 	
-	public User findById(Long Id) {
-		Optional<User> obj = userRepository.findById(Id);
-		return obj.	get();
+	public Order findById(Long Id) {
+		Optional<Order> obj = userRepository.findById(Id);
+		return obj.get();
 	}
 	
 
