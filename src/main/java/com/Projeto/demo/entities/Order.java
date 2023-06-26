@@ -30,7 +30,7 @@ public class Order implements Serializable{
 	private Long id;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T-HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	private OrderStatus orderStatus;
+	private Integer orderStatus;
 	
 	//@JsonIgnore //Para ignorar o loopin entre classe "User" e "Order"  (List<Order> e User cliente). Pode colocar essa anotação em apenas uma classe
 		//JsonIgnore no "User" traz a lista de pedidos feito pelo usuário, e no "Order" traz os dados do cliente. JsonIgonre traz essa opção
@@ -47,7 +47,7 @@ public class Order implements Serializable{
 		super();
 		this.id = id;
 		this.moment = moment;
-		this.orderStatus = orderStatus;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -60,7 +60,7 @@ public class Order implements Serializable{
 	}
 
 	public OrderStatus getOrderStatus() {
-		return orderStatus;
+		return OrderStatus.valueOf(orderStatus);
 	}
 
 	public User getClient() {
@@ -76,7 +76,7 @@ public class Order implements Serializable{
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
+		this.orderStatus = orderStatus.getCode();
 	}
 
 	public void setClient(User client) {
