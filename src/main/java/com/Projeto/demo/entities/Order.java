@@ -2,17 +2,21 @@ package com.Projeto.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.Projeto.demo.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -28,7 +32,7 @@ public class Order implements Serializable{
 	@Id //Qual vai ser a minha chave primário no banco de dados, nesse caso o id será minha chave primária.
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	//Como id é uma chave numérica vai ser auto-incrementável no banco de dados.
 	private Long id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T-HH:mm:ss'Z'", timezone = "GMT")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T-HH:mm:ss'Z", timezone = "GMT")
 	private Instant moment;
 	private Integer orderStatus;
 	
@@ -38,6 +42,9 @@ public class Order implements Serializable{
 	@ManyToOne //É para relacionarmos a classe Order e User no banco de dados (ManyToOne- pq existem muitas orders para um cliente) 
 	@JoinColumn(name = "client_id") //Para criar uma coluna "client_id" no banco de dados "Order" relacionado ao "id" do banco de dados "USER"
 	private User client;
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "id.order")
+	private Set<OrdemItem> items = new HashSet<>();
 	
 	public Order () {
 		
@@ -66,7 +73,11 @@ public class Order implements Serializable{
 	public User getClient() {
 		return client;
 	}
-
+	
+	public Set<OrdemItem> getItems(){
+		return items;
+	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

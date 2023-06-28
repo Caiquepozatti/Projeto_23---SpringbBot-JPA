@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.Projeto.demo.entities.pk.OrdemItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -14,8 +15,8 @@ import jakarta.persistence.Table;
 public class OrdemItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId //Puxa uma chave primária composta
-	private OrdemItemPK id;
+	@EmbeddedId //Puxa uma chave primária composta e sempre instanciar a classe composta.
+	private OrdemItemPK id = new OrdemItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -31,11 +32,13 @@ public class OrdemItem implements Serializable{
 		this.quantity = quantity;
 		this.price = price;
 	}
-
+	
+	@JsonIgnore //Pois como temos uma classe auxiliar, temos que colocar no get
 	public Order getOrder() {
 		return id.getOrder();
 	}
 	
+
 	public Product getProduct() {
 		return id.getProduct();
 	}
