@@ -48,7 +48,7 @@ public class Order implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "id.order")
 	private Set<OrdemItem> items = new HashSet<>();
 	
-	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //cascade é para mapear o mesmo id no payment e order
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "order", cascade = CascadeType.ALL) //cascade é para mapear o mesmo id no payment e order
 	private Payment payment;
 	
 	public Order () {
@@ -105,6 +105,15 @@ public class Order implements Serializable{
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
+	}
+	
+	//get é porque o spring boot JPA só vai mostrar no JSON(Postman) se tiver o get
+	public Double getTotal() {
+		double sum = 0.0;
+		for(OrdemItem x : items) {
+			sum += x.getSubTotal();	
+		}
+		return sum;
 	}
 
 	@Override

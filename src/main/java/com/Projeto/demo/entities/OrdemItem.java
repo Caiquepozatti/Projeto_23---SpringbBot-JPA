@@ -65,6 +65,11 @@ public class OrdemItem implements Serializable{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	//get é porque o spring boot JPA só vai mostrar no JSON(Postman) se tiver o get
+	public Double getSubTotal() {
+		return price*quantity;
+	}
 
 	@Override
 	public int hashCode() {
