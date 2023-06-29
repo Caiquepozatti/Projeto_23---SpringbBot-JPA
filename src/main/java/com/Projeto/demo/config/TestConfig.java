@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.Projeto.demo.entities.Category;
 import com.Projeto.demo.entities.OrdemItem;
 import com.Projeto.demo.entities.Order;
+import com.Projeto.demo.entities.Payment;
 import com.Projeto.demo.entities.Product;
 import com.Projeto.demo.entities.User;
 import com.Projeto.demo.enums.OrderStatus;
@@ -83,5 +84,11 @@ public class TestConfig implements CommandLineRunner {
 		OrdemItem oi4 = new OrdemItem(o3, p5, 2, p5.getPrice()); 
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1); //Quando a relação é @OneToOne é assim que instanciamos
+		
+		orderRepository.saveAll(Arrays.asList(o1));
+		
 	}
 }
