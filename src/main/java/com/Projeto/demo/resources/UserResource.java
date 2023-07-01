@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +44,7 @@ public class UserResource {
 	}
 	
 	@PostMapping //QUando for inserir algo no banco de dados
-				 //@RequestBody é para que o "User obj" seja vinculado ao corpo do HTTP (É utulizado quando usa @Post ou @Put
+				 //@RequestBody é para que o "User obj" seja vinculado ao corpo do HTTP diretamente no Postman (É utilizado quando usa @Post ou @Put)
 	public ResponseEntity<User> insert(@RequestBody User obj){
 		obj = userService.insert(obj);
 		//forma adequada de inserir no banco de dados
@@ -51,12 +52,18 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(obj); //Código 201 no Post para inserir
 	}
 	
-	//Não consigo deletar clientes que tem pedido, temos como tratar.
+	//Não consigo deletar clientes que tem pedido, temos como tratar
 	@DeleteMapping (value ="/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		userService.delete(id);
 		return ResponseEntity.noContent().build(); //Como é um método void, apenas para deletar, nao precisa retornar. Codigo 204 no Postman
 	}
 	
-
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
+		obj = userService.update(id,obj);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	
 }

@@ -32,4 +32,16 @@ public class UserService {
 	public void delete(Long id) {
 		userRepository.deleteById(id);
 	}
+	
+	public User update(Long id, User obj) {
+		User entity = userRepository.getReferenceById(id); //getTeferenceById ele nao busca no banco de dados, ele só deixa instanciado sendo mais eficiente. O findById busca direto no banco de dados e ja faz a alteração.
+		updateData(entity, obj);
+		return userRepository.save(entity);
+	}
+	
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+	}
 }
