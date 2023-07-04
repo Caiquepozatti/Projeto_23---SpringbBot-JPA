@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.Projeto.demo.entities.User;
 import com.Projeto.demo.repositories.UserRepository;
+import com.Projeto.demo.services.exceptions.ResourceNotFoundException;
 
 @Service //Para classificar como camada de serviço para utilizar o Autowired (component registration)
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 	
 	public User findById(Long Id) {
 		Optional<User> obj = userRepository.findById(Id);
-		return obj.	get();
+		return obj.orElseThrow(()-> new ResourceNotFoundException(Id)); //orElseThrow - Tenta dar o get() e se caso nao tiver o Usuário nesse id, ele retorna a exceção
 	}
 	
 	public User insert(User obj) {
