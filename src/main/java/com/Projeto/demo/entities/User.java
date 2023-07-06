@@ -8,6 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +36,7 @@ public class User implements Serializable {
 	@JsonIgnore //Para ignorar o loopin entre classe "User" e "Order"  (List<Order> e User cliente). Pode colocar essa anotação em apenas uma classe
 		//JsonIgnore no "User" traz a lista de pedidos feito pelo usuário, e no "Order" traz os dados do cliente. JsonIgonre traz essa opção
 		//Mas só pq no "application.proprerties" é igual a true, se não ele nao puxa.
-	@OneToMany(mappedBy = "client") //É para relacionarmos a classe Order e User no banco de dados (OneToMany- pq apenas uma classe Users para muitos pedidos) 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client") //É para relacionarmos a classe Order e User no banco de dados (OneToMany- pq apenas uma classe Users para muitos pedidos) 
 	private List<Order> order = new ArrayList<>();	
 	
 	public User () {

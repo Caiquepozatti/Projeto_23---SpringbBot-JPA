@@ -13,6 +13,8 @@ import com.Projeto.demo.repositories.UserRepository;
 import com.Projeto.demo.services.exceptions.DatabaseException;
 import com.Projeto.demo.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service // Para classificar como camada de serviço para utilizar o Autowired (component
 			// registration)
 public class UserService {
@@ -39,20 +41,24 @@ public class UserService {
 	public void delete(Long id) {
 		try {
 			userRepository.deleteById(id);
-		}catch(EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
-		}catch(DataIntegrityViolationException e) {
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);			
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
 	public User update(Long id, User obj) {
-		User entity = userRepository.getReferenceById(id); // getTeferenceById ele nao busca no banco de dados, ele só
-															// deixa instanciado sendo mais eficiente. O findById busca
-															// direto no banco de dados e ja faz a alteração.
-		updateData(entity, obj);
-		return userRepository.save(entity);
-	}
+		try {
+			User entity = userRepository.getReferenceById(id); //getTeferenceById ele nao busca no banco de dados, 
+																//ele só deixa instanciado sendo mais eficiente. O findById 
+																//busca direto no banco de dados e ja faz a alteração.
+			updateData(entity, obj);
+			return userRepository.save(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
+	}		
 
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
